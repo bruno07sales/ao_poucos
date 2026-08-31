@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aos Poucos</title>
+<meta name="theme-color" content="#1B4F8A">
+<meta name="description" content="Aprenda a usar o smartphone com calma, segurança e autonomia.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Aos Poucos">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon.svg">
+<script src="./support.js"></script>
+<script>
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+        console.warn('Não foi possível ativar o modo offline.', error);
+      });
+    });
+  }
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #E9E7E3; -webkit-font-smoothing: antialiased; }
+  a { color: #1B4F8A; }
+  a:hover { color: #143A66; }
+  button { font: inherit; }
+  @keyframes alvo {
+    0%   { box-shadow: 0 0 0 0 rgba(27,79,138,0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(27,79,138,0); }
+    100% { box-shadow: 0 0 0 0 rgba(27,79,138,0); }
+  }
+  @keyframes pisca { 0%,100% { opacity: 1 } 50% { opacity: 0.25 } }
+  @keyframes surge { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 36px 24px 60px; box-sizing: border-box; font-family: Figtree, system-ui, sans-serif;">
+
+  <div style="width: 428px; display: flex; flex-direction: column; gap: 4px;">
+    <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8F8B;">Protótipo navegável</div>
+    <div style="font-family: Newsreader, Georgia, serif; font-size: 25px; font-weight: 600; color: #16191D; letter-spacing: -0.01em;">Aos Poucos</div>
+    <div style="font-size: 14px; line-height: 1.45; color: #5C636B; max-width: 40ch;">Cinco níveis, 30 aulas e uma caderneta de selos. Jogáveis de ponta a ponta: “Mandar mensagem e áudio”, “Reconhecer golpes” e “Entender as notificações”. Quem aprende não paga: a receita vem da família e da instituição.</div>
+  </div>
+
+  <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+    <div style="height: 100%; display: flex; flex-direction: column; background: #F5F5F3; color: #16191D; font-family: Figtree, system-ui, sans-serif;">
+
+      <sc-if value="{{ temChrome }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 12px 8px 12px 18px; background: #FFFFFF; border-bottom: 1px solid #DFE1E4; flex-shrink: 0;">
+          <span style="font-size: 18px; font-weight: 700; color: #1B4F8A; letter-spacing: -0.01em;">Aos Poucos</span>
+          <div style="flex: 1;"></div>
+          <button type="button" onClick="{{ irCaderneta }}" style="display: flex; align-items: baseline; gap: 5px; min-height: 48px; padding: 0 13px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">
+            <span style="font-size: 19px; font-weight: 700; color: #16191D;">{{ pontos }}</span>
+            <span style="font-size: 13px; font-weight: 600; color: #6C737A;">pontos</span>
+          </button>
+          <button type="button" onClick="{{ mudarEscala }}" style="min-width: 54px; height: 48px; padding: 0 10px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #1B4F8A; font-size: 17px; font-weight: 700; cursor: pointer;" style-hover="background: #E8EEF6;">{{ escalaLabel }}</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ temChrome }}" hint-placeholder-val="{{ true }}">
+      <div style="flex: 1; min-height: 0; overflow: auto;">
+        <div style="zoom: {{ zoom }}">
+
+          <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 20px 20px 34px; display: flex; flex-direction: column; gap: 20px;">
+
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 27px; font-weight: 600; letter-spacing: -0.015em;">Bom dia, {{ nome }}.</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">{{ resumo }}</div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188; margin-bottom: -4px;">Escolha o nível</div>
+                <div style="display: flex; border: 1px solid #DFE1E4; border-radius: 6px; overflow: hidden; background: #FFFFFF;">
+                  <button type="button" onClick="{{ nivel0 }}" style="position: relative; flex: 1; min-height: 54px; padding: 0 4px; border: none; background: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #16191D;">
+                    <sc-if value="{{ n0on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                    <sc-if value="{{ n0on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                    <span style="position: relative;">1</span>
+                  </button>
+                  <button type="button" onClick="{{ nivel1 }}" style="position: relative; flex: 1; min-height: 54px; padding: 0 4px; border: none; border-left: 1px solid #EDEEF0; background: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #16191D;">
+                    <sc-if value="{{ n1on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                    <sc-if value="{{ n1on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                    <span style="position: relative;">2</span>
+                  </button>
+                  <button type="button" onClick="{{ nivel2 }}" style="position: relative; flex: 1; min-height: 54px; padding: 0 4px; border: none; border-left: 1px solid #EDEEF0; background: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #16191D;">
+                    <sc-if value="{{ n2on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                    <sc-if value="{{ n2on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                    <span style="position: relative;">3</span>
+                  </button>
+                  <button type="button" onClick="{{ nivel3 }}" style="position: relative; flex: 1; min-height: 54px; padding: 0 4px; border: none; border-left: 1px solid #EDEEF0; background: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #16191D;">
+                    <sc-if value="{{ n3on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                    <sc-if value="{{ n3on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                    <span style="position: relative;">4</span>
+                  </button>
+                  <button type="button" onClick="{{ nivel4 }}" style="position: relative; flex: 1; min-height: 54px; padding: 0 4px; border: none; border-left: 1px solid #EDEEF0; background: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #16191D;">
+                    <sc-if value="{{ n4on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                    <sc-if value="{{ n4on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                    <span style="position: relative;">5</span>
+                  </button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px; background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px;">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 19px; font-weight: 700;">Nível {{ nvNum }} · {{ nvNome }}</span>
+                    <span style="font-size: 13px; font-weight: 600; color: #6C737A;">{{ nvFeitas }} de 6</span>
+                  </div>
+                  <div style="font-size: 15px; line-height: 1.45; color: #5C636B;">{{ nvDesc }}</div>
+                  <div style="height: 8px; background: #EDEEF0; border-radius: 6px; overflow: hidden;">
+                    <div style="height: 100%; background: #1B4F8A; border-radius: 6px; width: {{ nvPct }}"></div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; padding-top: 2px;">
+                    <div style="width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: #8A9199;"></div>
+                    <span style="font-size: 13px; line-height: 1.4; color: #5C636B;">{{ nvFaixa }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <sc-if value="{{ temContinuar }}">
+                <div style="background: #1B4F8A; border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #A9C4E4;">Próxima aula deste nível</div>
+                    <div style="font-size: 21px; font-weight: 600; color: #FFFFFF; line-height: 1.3;">{{ contTitulo }}</div>
+                    <div style="font-size: 14px; color: #C9DCF0;">{{ contMeta }}</div>
+                  </div>
+                  <button type="button" onClick="{{ contAbrir }}" style="width: 100%; min-height: 56px; border: none; border-radius: 6px; background: #FFFFFF; color: #1B4F8A; font-size: 18px; font-weight: 700; cursor: pointer;" style-hover="background: #E8EEF6;">Abrir aula</button>
+                </div>
+              </sc-if>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 13px;">
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #1B4F8A;">Missão desta semana</div>
+                  <div style="font-size: 20px; font-weight: 600; line-height: 1.3;">Mande um áudio de verdade para alguém</div>
+                  <div style="font-size: 15px; line-height: 1.5; color: #5C636B;">No seu celular mesmo, não aqui. Vale 20 pontos quando alguém da família confirmar.</div>
+                </div>
+                <sc-if value="{{ missaoAberta }}">
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button type="button" onClick="{{ missaoFeita }}" style="width: 100%; min-height: 54px; border: none; border-radius: 6px; background: #1B4F8A; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer;" style-hover="background: #143A66;">Já fiz</button>
+                    <button type="button" onClick="{{ missaoPedir }}" style="width: 100%; min-height: 54px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 17px; font-weight: 600; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">Pedir para a Maria confirmar</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ missaoPedida }}">
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="background: #F3F4F2; border-radius: 6px; padding: 14px 16px; font-size: 15px; line-height: 1.5; color: #3D444B;">Pedido enviado para Maria. Ela confirma no celular dela e você recebe os pontos.</div>
+                    <button type="button" onClick="{{ missaoFeita }}" style="width: 100%; min-height: 54px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 17px; font-weight: 600; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">Maria confirmou</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ missaoFeitaOk }}">
+                  <div style="display: flex; align-items: center; gap: 12px; background: #E4F0E9; border-radius: 6px; padding: 14px 16px;">
+                    <div style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1F6B4A; display: flex; align-items: center; justify-content: center;">
+                      <div style="width: 9px; height: 5px; border-left: 2.5px solid #FFFFFF; border-bottom: 2.5px solid #FFFFFF; transform: rotate(-45deg); margin-top: -2px;"></div>
+                    </div>
+                    <div style="font-size: 15px; line-height: 1.45; color: #1F6B4A; font-weight: 600;">Confirmado. 20 pontos somados.</div>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Aulas deste nível</div>
+                <sc-for list="{{ aulas }}" as="a" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ a.abrir }}" style="display: flex; align-items: center; gap: 13px; text-align: left; width: 100%; padding: 15px; background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; cursor: pointer; margin-bottom: 10px;" style-hover="border-color: #1B4F8A; background: #FBFCFD;">
+                    <div style="width: 38px; height: 38px; flex-shrink: 0; border-radius: 6px; background: #EDF1F6; color: #1B4F8A; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700;">{{ a.n }}</div>
+                    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+                      <div style="font-size: 17px; font-weight: 600; line-height: 1.3; color: #16191D;">{{ a.titulo }}</div>
+                      <div style="font-size: 14px; line-height: 1.4; color: #6C737A;">{{ a.sub }}</div>
+                    </div>
+                    <sc-if value="{{ a.feita }}">
+                      <div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1F6B4A; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 10px; height: 5px; border-left: 2.5px solid #FFFFFF; border-bottom: 2.5px solid #FFFFFF; transform: rotate(-45deg); margin-top: -3px;"></div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ a.jogavel }}">
+                      <div style="flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1B4F8A; border: 1.5px solid #B9CCE3; border-radius: 6px; padding: 4px 7px;">Pronta</div>
+                    </sc-if>
+                    <sc-if value="{{ a.trancada }}">
+                      <div style="flex-shrink: 0; display: flex; align-items: center; gap: 6px; border: 1.5px solid #B4BBC2; border-radius: 6px; padding: 4px 7px;">
+                        <div style="width: 12px; height: 9px; border-radius: 2px; background: #5C636B; position: relative;">
+                          <div style="position: absolute; left: 2px; top: -5px; width: 8px; height: 6px; border: 2px solid #5C636B; border-bottom: none; border-radius: 4px 4px 0 0; box-sizing: border-box;"></div>
+                        </div>
+                        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5C636B;">Plano</div>
+                      </div>
+                    </sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isTrilha }}">
+            <div style="padding: 16px 20px 34px; display: flex; flex-direction: column; gap: 18px;">
+              <button type="button" onClick="{{ voltarHome }}" style="display: flex; align-items: center; gap: 9px; align-self: flex-start; min-height: 48px; padding: 0 4px; background: none; border: none; color: #1B4F8A; font-size: 17px; font-weight: 600; cursor: pointer;">
+                <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #1B4F8A;"></div>
+                Voltar
+              </button>
+
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">{{ tEtiqueta }}</div>
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 28px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em;">{{ tTitulo }}</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">{{ tSub }}</div>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-size: 15px; font-weight: 700; color: #16191D;">{{ tRotulo }}</div>
+                <sc-for list="{{ tItens }}" as="it" hint-placeholder-count="3">
+                  <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #1B4F8A; margin-top: 7px; flex-shrink: 0;"></div>
+                    <div style="font-size: 16px; line-height: 1.5; color: #3D444B;">{{ it }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 9px; font-size: 14px; color: #6C737A;">
+                <div style="width: 7px; height: 7px; border-radius: 50%; background: #1B4F8A;"></div>
+                {{ tPontosLabel }}
+              </div>
+
+              <sc-if value="{{ tPronta }}">
+                <button type="button" onClick="{{ tAcao }}" style="width: 100%; min-height: 60px; border: none; border-radius: 6px; background: #1B4F8A; color: #FFFFFF; font-size: 19px; font-weight: 700; cursor: pointer;" style-hover="background: #143A66;">{{ tAcaoLabel }}</button>
+              </sc-if>
+
+              <sc-if value="{{ tEmPreparo }}">
+                <div style="border: 1.5px dashed #C7CDD4; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 8px; background: #FAFAF8;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8F8B;">Em preparação</div>
+                  <div style="font-size: 16px; line-height: 1.5; color: #4A5157;">Esta aula ainda não foi montada. Vai seguir o mesmo formato das aulas prontas: uma tela de treino e um passo por vez.</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ verFontes }}">
+                <div style="display: flex; flex-direction: column; gap: 5px; padding-top: 2px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8F8B;">Baseada em</div>
+                  <div style="font-size: 14px; line-height: 1.5; color: #6C737A;">{{ tFonte }}</div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isPraticar }}">
+            <div style="padding: 20px 20px 34px; display: flex; flex-direction: column; gap: 18px;">
+
+              <div style="display: flex; border: 1px solid #DFE1E4; border-radius: 6px; overflow: hidden; background: #FFFFFF;">
+                <button type="button" onClick="{{ set0 }}" style="position: relative; flex: 1; min-height: 52px; padding: 0 6px; border: none; background: none; cursor: pointer; font-size: 15px; font-weight: 600; color: #16191D;">
+                  <sc-if value="{{ s0on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                  <sc-if value="{{ s0on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                  <span style="position: relative;">Golpes</span>
+                </button>
+                <button type="button" onClick="{{ set1 }}" style="position: relative; flex: 1; min-height: 52px; padding: 0 6px; border: none; border-left: 1px solid #EDEEF0; background: none; cursor: pointer; font-size: 15px; font-weight: 600; color: #16191D;">
+                  <sc-if value="{{ s1on }}"><div style="position: absolute; inset: 0; background: #E8EEF6;"></div></sc-if>
+                  <sc-if value="{{ s1on }}"><div style="position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+                  <span style="position: relative;">Notificações</span>
+                </button>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Situação {{ qNum }} de {{ qTotal }}</div>
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 27px; font-weight: 600; letter-spacing: -0.015em;">{{ qPergunta }}</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">Leia com calma e decida. Acertar vale 15 pontos.</div>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; overflow: hidden;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 16px; background: #F3F4F2; border-bottom: 1px solid #DFE1E4;">
+                  <span style="font-size: 15px; font-weight: 700; color: #3D444B;">{{ qDe }}</span>
+                  <span style="font-size: 13px; color: #7A8188;">{{ qHora }}</span>
+                </div>
+                <div style="padding: 17px 16px; font-size: 18px; line-height: 1.55; color: #16191D;">{{ qTexto }}</div>
+              </div>
+
+              <sc-if value="{{ qAberta }}">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <button type="button" onClick="{{ respA }}" style="width: 100%; min-height: 62px; padding: 0 16px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 18px; font-weight: 700; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">{{ qLabelA }}</button>
+                  <button type="button" onClick="{{ respB }}" style="width: 100%; min-height: 62px; padding: 0 16px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 18px; font-weight: 700; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">{{ qLabelB }}</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ qRespondida }}">
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                  <div style="border-radius: 6px; padding: 18px; border: 1px solid #DFE1E4; background: #FFFFFF; display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; flex-direction: column; gap: 9px;">
+                      <sc-if value="{{ qAcertou }}">
+                        <div style="align-self: flex-start; display: flex; align-items: center; gap: 9px; padding: 5px 12px 5px 9px; border-radius: 6px; background: #E4F0E9;">
+                          <div style="width: 20px; height: 20px; border-radius: 50%; background: #1F6B4A; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 8px; height: 4px; border-left: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF; transform: rotate(-45deg); margin-top: -2px;"></div>
+                          </div>
+                          <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #1F6B4A;">Você acertou</span>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ qErrou }}">
+                        <div style="align-self: flex-start; display: flex; align-items: center; gap: 9px; padding: 5px 12px 5px 9px; border-radius: 6px; background: #FAEDE9;">
+                          <div style="width: 20px; height: 20px; border-radius: 50%; background: #A83A22; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 14px; font-weight: 700; line-height: 1;">!</div>
+                          <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A83A22;">Quase. Olhe os sinais</span>
+                        </div>
+                      </sc-if>
+                      <div style="font-size: 21px; font-weight: 700; line-height: 1.3;">{{ qVeredito }}</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 11px;">
+                      <sc-if value="{{ qAlerta }}">
+                        <sc-for list="{{ qSinais }}" as="s" hint-placeholder-count="3">
+                          <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 9px;">
+                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #A83A22; margin-top: 8px; flex-shrink: 0;"></div>
+                            <div style="font-size: 16px; line-height: 1.5; color: #3D444B;">{{ s }}</div>
+                          </div>
+                        </sc-for>
+                      </sc-if>
+                      <sc-if value="{{ qOk }}">
+                        <sc-for list="{{ qSinais }}" as="s" hint-placeholder-count="3">
+                          <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 9px;">
+                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #1F6B4A; margin-top: 8px; flex-shrink: 0;"></div>
+                            <div style="font-size: 16px; line-height: 1.5; color: #3D444B;">{{ s }}</div>
+                          </div>
+                        </sc-for>
+                      </sc-if>
+                    </div>
+                    <div style="border-top: 1px solid #E7E9EB; padding-top: 13px; display: flex; flex-direction: column; gap: 5px;">
+                      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8F8B;">O que fazer</div>
+                      <div style="font-size: 16px; line-height: 1.55; color: #16191D;">{{ qOque }}</div>
+                    </div>
+                  </div>
+
+                  <sc-if value="{{ qGanhou }}">
+                    <div style="display: flex; align-items: center; gap: 12px; background: #E8EEF6; border-radius: 6px; padding: 14px 16px; animation: surge 0.4s ease-out;">
+                      <div style="font-size: 22px; font-weight: 700; color: #1B4F8A;">+15</div>
+                      <div style="font-size: 15px; line-height: 1.4; color: #3D444B;">pontos somados à sua caderneta</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ qRepetida }}">
+                    <div style="border: 1.5px solid #DFE1E4; border-radius: 6px; padding: 14px 16px; font-size: 15px; line-height: 1.45; color: #5C636B;">Os pontos desta situação você já tinha somado. Treinar de novo é de graça.</div>
+                  </sc-if>
+
+                  <button type="button" onClick="{{ qProxima }}" style="width: 100%; min-height: 60px; border: none; border-radius: 6px; background: #1B4F8A; color: #FFFFFF; font-size: 19px; font-weight: 700; cursor: pointer;" style-hover="background: #143A66;">{{ qProximaLabel }}</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ verFontes }}">
+                <div style="font-size: 14px; line-height: 1.5; color: #7A8188;">{{ qFonte }}</div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isCaderneta }}">
+            <div style="padding: 20px 20px 34px; display: flex; flex-direction: column; gap: 20px;">
+
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 28px; font-weight: 600; letter-spacing: -0.015em;">Sua caderneta</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">Como a caderneta de vacinação: cada coisa aprendida ganha um selo que fica guardado.</div>
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <div style="flex: 1; background: #1B4F8A; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 2px;">
+                  <div style="font-size: 32px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.02em; line-height: 1.1;">{{ pontos }}</div>
+                  <div style="font-size: 13px; font-weight: 600; color: #A9C4E4;">pontos no total</div>
+                </div>
+                <div style="flex: 1; background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 2px;">
+                  <div style="font-size: 32px; font-weight: 700; color: #16191D; letter-spacing: -0.02em; line-height: 1.1;">{{ sequencia }}</div>
+                  <div style="font-size: 13px; font-weight: 600; color: #6C737A;">dias seguidos</div>
+                </div>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+                  <span style="font-size: 17px; font-weight: 700;">Aulas concluídas</span>
+                  <span style="font-size: 13px; font-weight: 600; color: #6C737A;">{{ totalFeitas }} de 30</span>
+                </div>
+                <div style="height: 8px; background: #EDEEF0; border-radius: 6px; overflow: hidden;">
+                  <div style="height: 100%; background: #1B4F8A; border-radius: 6px; width: {{ totalPct }}"></div>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+                  <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Selos</span>
+                  <span style="font-size: 13px; font-weight: 600; color: #6C737A;">{{ selosFeitos }} de 6</span>
+                </div>
+                <sc-for list="{{ selos }}" as="sl" hint-placeholder-count="6">
+                  <div style="display: flex; align-items: center; gap: 14px; background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 14px 16px; margin-bottom: 10px;">
+                    <sc-if value="{{ sl.ganho }}">
+                      <div style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #1B4F8A; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 16px; height: 8px; border-left: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF; transform: rotate(-45deg); margin-top: -4px;"></div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ sl.falta }}">
+                      <div style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; border: 2px dashed #C7CDD4; box-sizing: border-box;"></div>
+                    </sc-if>
+                    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+                      <div style="font-size: 17px; font-weight: 600; color: #16191D;">{{ sl.nome }}</div>
+                      <div style="font-size: 14px; line-height: 1.4; color: #6C737A;">{{ sl.como }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 13px;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+                  <span style="font-size: 15px; font-weight: 700;">Seu plano</span>
+                  <span style="font-size: 15px; font-weight: 700; color: #1B4F8A;">{{ planoNome }}</span>
+                </div>
+                <div style="font-size: 15px; line-height: 1.5; color: #5C636B;">{{ planoDesc }}</div>
+                <button type="button" onClick="{{ irPlanos }}" style="width: 100%; min-height: 54px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 17px; font-weight: 600; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">Ver planos</button>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+                <div style="font-size: 15px; font-weight: 700;">Como somar pontos</div>
+                <div style="font-size: 15px; line-height: 1.5; color: #3D444B;">Concluir uma aula vale de 20 a 40 pontos, conforme o nível. Terminar sem nenhum erro dá 10 pontos de bônus. Cada situação certa em Praticar vale 15.</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isOferta }}">
+            <div style="padding: 16px 20px 34px; display: flex; flex-direction: column; gap: 18px;">
+              <button type="button" onClick="{{ voltarHome }}" style="display: flex; align-items: center; gap: 9px; align-self: flex-start; min-height: 48px; padding: 0 4px; background: none; border: none; color: #1B4F8A; font-size: 17px; font-weight: 600; cursor: pointer;">
+                <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #1B4F8A;"></div>
+                Voltar
+              </button>
+
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Aula no Plano Família</div>
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 27px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em;">{{ ofertaTitulo }}</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">O Nível 1 é gratuito para sempre, e as duas primeiras aulas de cada nível também. Esta faz parte das dezesseis que ficam no plano.</div>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-size: 15px; font-weight: 700;">O plano inclui</div>
+                <sc-for list="{{ ofertaItens }}" as="oi" hint-placeholder-count="4">
+                  <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 10px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #1B4F8A; margin-top: 7px; flex-shrink: 0;"></div>
+                    <div style="font-size: 16px; line-height: 1.5; color: #3D444B;">{{ oi }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="background: #E8EEF6; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 17px; font-weight: 700; color: #143A66;">Quem assina não precisa ser você.</div>
+                <div style="font-size: 16px; line-height: 1.55; color: #2C3A4B;">Uma assinatura serve a casa inteira. Mande esta tela para sua filha ou seu neto: eles pagam pelo celular deles e você continua aprendendo aqui, sem mexer em cartão nenhum.</div>
+              </div>
+
+              <sc-if value="{{ semConvite }}">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <button type="button" onClick="{{ enviarConvite }}" style="width: 100%; min-height: 60px; border: none; border-radius: 6px; background: #1B4F8A; color: #FFFFFF; font-size: 18px; font-weight: 700; cursor: pointer;" style-hover="background: #143A66;">Enviar para minha filha</button>
+                  <button type="button" onClick="{{ irPlanos }}" style="width: 100%; min-height: 60px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 18px; font-weight: 600; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">Ver os planos</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ convite }}">
+                <div style="border: 1.5px solid #1B4F8A; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 6px; background: #FFFFFF; animation: surge 0.45s ease-out;">
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1B4F8A;">Convite enviado</div>
+                  <div style="font-size: 16px; line-height: 1.55; color: #16191D;">Maria recebeu um link para assinar em nome de vocês. Enquanto isso, o Nível 1 continua liberado.</div>
+                </div>
+              </sc-if>
+
+              <div style="font-size: 14px; line-height: 1.5; color: #7A8188;">Nada é cobrado de quem aprende. A cobrança só acontece se alguém da família aceitar o convite.</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isPlanos }}">
+            <div style="padding: 16px 20px 34px; display: flex; flex-direction: column; gap: 18px;">
+              <button type="button" onClick="{{ irCaderneta }}" style="display: flex; align-items: center; gap: 9px; align-self: flex-start; min-height: 48px; padding: 0 4px; background: none; border: none; color: #1B4F8A; font-size: 17px; font-weight: 600; cursor: pointer;">
+                <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #1B4F8A;"></div>
+                Voltar
+              </button>
+
+              <div style="display: flex; flex-direction: column; gap: 7px;">
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 28px; font-weight: 600; letter-spacing: -0.015em;">Planos</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">Uma parte é gratuita para sempre. O resto é pago por quem cuida ou pela instituição que oferece o curso.</div>
+              </div>
+
+              <sc-for list="{{ planos }}" as="pl" hint-placeholder-count="3">
+                <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px;">
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; align-items: center; gap: 9px;">
+                      <span style="font-size: 19px; font-weight: 700;">{{ pl.nome }}</span>
+                      <sc-if value="{{ pl.atual }}">
+                        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1B4F8A; border: 1.5px solid #B9CCE3; border-radius: 6px; padding: 3px 7px;">Seu plano</span>
+                      </sc-if>
+                    </div>
+                    <div style="font-size: 27px; font-weight: 700; color: #1B4F8A; letter-spacing: -0.02em;">{{ pl.preco }}</div>
+                    <div style="font-size: 14px; line-height: 1.45; color: #6C737A;">{{ pl.periodo }}</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #E7E9EB; padding-top: 14px;">
+                    <sc-for list="{{ pl.itens }}" as="pi" hint-placeholder-count="4">
+                      <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 8px;">
+                        <div style="width: 7px; height: 7px; border-radius: 50%; background: #1B4F8A; margin-top: 7px; flex-shrink: 0;"></div>
+                        <div style="font-size: 15px; line-height: 1.5; color: #3D444B;">{{ pi }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ pl.temAcao }}">
+                    <button type="button" onClick="{{ enviarConvite }}" style="width: 100%; min-height: 56px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 17px; font-weight: 700; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">{{ pl.acao }}</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <sc-if value="{{ convite }}">
+                <div style="border: 1.5px solid #1B4F8A; border-radius: 6px; padding: 16px; font-size: 16px; line-height: 1.55; color: #16191D; background: #FFFFFF; animation: surge 0.45s ease-out;">Convite enviado. Quem recebe assina no celular dele e libera tudo para você.</div>
+              </sc-if>
+
+              <div style="border-top: 1px solid #DFE1E4; padding-top: 16px; display: flex; flex-direction: column; gap: 9px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8F8B;">Só nesta demonstração</div>
+                <button type="button" onClick="{{ alternarPlano }}" style="width: 100%; min-height: 52px; border: 1.5px dashed #C7CDD4; border-radius: 6px; background: none; color: #5C636B; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="border-color: #1B4F8A; color: #1B4F8A;">{{ alternarLabel }}</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isFontes }}">
+            <div style="padding: 20px 20px 34px; display: flex; flex-direction: column; gap: 22px;">
+              <div style="display: flex; flex-direction: column; gap: 7px;">
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 28px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em;">De onde vem este conteúdo</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #5C636B;">As aulas foram montadas a partir das queixas que aparecem com mais frequência em cartilhas, cursos e estudos sobre ensino de celular para pessoas idosas.</div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 1px; background: #DFE1E4; border: 1px solid #DFE1E4; border-radius: 6px; overflow: hidden;">
+                <sc-for list="{{ dados }}" as="d" hint-placeholder-count="4">
+                  <div style="background: #FFFFFF; padding: 15px 16px; display: flex; align-items: baseline; gap: 14px;">
+                    <div style="font-size: 25px; font-weight: 700; color: #1B4F8A; letter-spacing: -0.02em; min-width: 76px;">{{ d.n }}</div>
+                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                      <div style="font-size: 15px; line-height: 1.45; color: #3D444B;">{{ d.txt }}</div>
+                      <div style="font-size: 12px; line-height: 1.4; color: #8A8F8B;">{{ d.f }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">As queixas mais registradas</div>
+                <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+                  <sc-for list="{{ queixas }}" as="qx" hint-placeholder-count="6">
+                    <div style="display: flex; gap: 11px; align-items: flex-start; margin-bottom: 9px;">
+                      <div style="width: 8px; height: 8px; border-radius: 50%; background: #A83A22; margin-top: 7px; flex-shrink: 0;"></div>
+                      <div style="font-size: 15px; line-height: 1.5; color: #3D444B;">{{ qx }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Referências</div>
+                <sc-for list="{{ fontes }}" as="f" hint-placeholder-count="6">
+                  <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 15px 16px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1B4F8A;">{{ f.tipo }}</div>
+                    <div style="font-size: 16px; font-weight: 600; line-height: 1.4; color: #16191D;">{{ f.t }}</div>
+                    <div style="font-size: 14px; line-height: 1.45; color: #6C737A;">{{ f.a }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isFeito }}">
+            <div style="padding: 30px 20px; display: flex; flex-direction: column; gap: 22px;">
+              <div style="width: 60px; height: 60px; border-radius: 50%; background: #1F6B4A; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 24px; height: 12px; border-left: 4px solid #FFFFFF; border-bottom: 4px solid #FFFFFF; transform: rotate(-45deg); margin-top: -7px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 9px;">
+                <div style="font-family: Newsreader, Georgia, serif; font-size: 31px; font-weight: 600; line-height: 1.15; letter-spacing: -0.015em;">Você conseguiu, {{ nome }}.</div>
+                <div style="font-size: 17px; line-height: 1.5; color: #4A5157;">O áudio foi enviado. É sempre desse jeito: abrir a conversa, segurar o microfone, falar, soltar.</div>
+              </div>
+
+              <sc-if value="{{ ganhouPontos }}">
+                <div style="background: #1B4F8A; border-radius: 6px; padding: 18px; display: flex; align-items: center; gap: 16px; animation: surge 0.45s ease-out;">
+                  <div style="font-size: 38px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.02em; line-height: 1;">+{{ ganhos }}</div>
+                  <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;">
+                    <div style="font-size: 17px; font-weight: 600; color: #FFFFFF;">pontos</div>
+                    <div style="font-size: 14px; line-height: 1.4; color: #C9DCF0;">{{ ganhosDetalhe }}</div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ semPontos }}">
+                <div style="border: 1.5px solid #DFE1E4; border-radius: 6px; padding: 16px; font-size: 15px; line-height: 1.5; color: #5C636B;">Você já tinha concluído esta aula, então não somou pontos novos. Repetir quantas vezes quiser é de graça.</div>
+              </sc-if>
+
+              <sc-if value="{{ temNovoSelo }}">
+                <div style="border: 1.5px solid #1B4F8A; border-radius: 6px; padding: 17px; display: flex; align-items: center; gap: 14px; background: #FFFFFF; animation: surge 0.55s ease-out;">
+                  <div style="width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; background: #1B4F8A; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 16px; height: 8px; border-left: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF; transform: rotate(-45deg); margin-top: -4px;"></div>
+                  </div>
+                  <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1B4F8A;">Selo novo na caderneta</div>
+                    <div style="font-size: 19px; font-weight: 700; color: #16191D;">{{ novoSeloNome }}</div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <div style="background: #FFFFFF; border: 1px solid #DFE1E4; border-radius: 6px; padding: 17px; display: flex; flex-direction: column; gap: 13px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8188;">Para lembrar</div>
+                <sc-for list="{{ recap }}" as="r" hint-placeholder-count="4">
+                  <div style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 9px;">
+                    <div style="width: 26px; height: 26px; border-radius: 6px; background: #EDF1F6; color: #1B4F8A; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">{{ r.n }}</div>
+                    <div style="font-size: 16px; line-height: 1.55; color: #3D444B; padding-top: 2px;">{{ r.txt }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button type="button" onClick="{{ refazerAula }}" style="width: 100%; min-height: 60px; border: 1.5px solid #C7CDD4; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 19px; font-weight: 700; cursor: pointer;" style-hover="border-color: #1B4F8A; background: #F4F8FC;">Fazer de novo</button>
+                <button type="button" onClick="{{ voltarHome }}" style="width: 100%; min-height: 60px; border: none; border-radius: 6px; background: #1B4F8A; color: #FFFFFF; font-size: 19px; font-weight: 700; cursor: pointer;" style-hover="background: #143A66;">Voltar para as aulas</button>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ temChrome }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; border-top: 1px solid #DFE1E4; background: #FFFFFF; flex-shrink: 0;">
+          <button type="button" onClick="{{ voltarHome }}" style="position: relative; flex: 1; min-height: 66px; padding: 8px 2px 0; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <sc-if value="{{ navHome }}"><div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+            <sc-if value="{{ navHome }}"><span style="font-size: 15px; font-weight: 700; color: #1B4F8A;">Aprender</span></sc-if>
+            <sc-if value="{{ navHomeOff }}"><span style="font-size: 15px; font-weight: 500; color: #6C737A;">Aprender</span></sc-if>
+          </button>
+          <button type="button" onClick="{{ irPraticar }}" style="position: relative; flex: 1; min-height: 66px; padding: 8px 2px 0; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #EDEEF0;">
+            <sc-if value="{{ navPraticar }}"><div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+            <sc-if value="{{ navPraticar }}"><span style="font-size: 15px; font-weight: 700; color: #1B4F8A;">Praticar</span></sc-if>
+            <sc-if value="{{ navPraticarOff }}"><span style="font-size: 15px; font-weight: 500; color: #6C737A;">Praticar</span></sc-if>
+          </button>
+          <button type="button" onClick="{{ irCaderneta }}" style="position: relative; flex: 1; min-height: 66px; padding: 8px 2px 0; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #EDEEF0;">
+            <sc-if value="{{ navCad }}"><div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+            <sc-if value="{{ navCad }}"><span style="font-size: 15px; font-weight: 700; color: #1B4F8A;">Caderneta</span></sc-if>
+            <sc-if value="{{ navCadOff }}"><span style="font-size: 15px; font-weight: 500; color: #6C737A;">Caderneta</span></sc-if>
+          </button>
+          <button type="button" onClick="{{ irFontes }}" style="position: relative; flex: 1; min-height: 66px; padding: 8px 2px 0; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #EDEEF0;">
+            <sc-if value="{{ navFontes }}"><div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #1B4F8A;"></div></sc-if>
+            <sc-if value="{{ navFontes }}"><span style="font-size: 15px; font-weight: 700; color: #1B4F8A;">Fontes</span></sc-if>
+            <sc-if value="{{ navFontesOff }}"><span style="font-size: 15px; font-weight: 500; color: #6C737A;">Fontes</span></sc-if>
+          </button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isAula }}">
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; background: #16191D;">
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 10px 10px 18px; background: #1B4F8A; flex-shrink: 0;">
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #A9C4E4;">Tela de treino</span>
+              <span style="font-size: 16px; font-weight: 600; color: #FFFFFF;">Mandar um áudio</span>
+            </div>
+            <button type="button" onClick="{{ voltarHome }}" style="min-height: 46px; padding: 0 16px; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 6px; background: none; color: #FFFFFF; font-size: 16px; font-weight: 600; cursor: pointer;" style-hover="background: rgba(255,255,255,0.14);">Sair</button>
+          </div>
+
+          <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; background: #FFFFFF; overflow: hidden; position: relative;">
+
+            <sc-if value="{{ naLista }}" hint-placeholder-val="{{ true }}">
+              <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+                <div style="padding: 16px 18px; border-bottom: 1px solid #E7E9EB; font-size: 21px; font-weight: 700; color: #16191D;">Mensagens</div>
+                <button type="button" onClick="{{ tocarConversa }}" style="display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; padding: 15px 18px; background: #FFFFFF; border: none; border-bottom: 1px solid #F0F1F2; cursor: pointer; animation: alvo 1.6s ease-out infinite; border-radius: 6px;">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; background: #D7E2EF; color: #1B4F8A; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0;">M</div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: 18px; font-weight: 600; color: #16191D;">Maria (filha)</div>
+                    <div style="font-size: 15px; color: #6C737A;">Mãe, chegou bem em casa?</div>
+                  </div>
+                  <div style="font-size: 13px; color: #8A8F8B;">09:12</div>
+                </button>
+                <button type="button" onClick="{{ erroOutraConversa }}" style="display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; padding: 15px 18px; background: #FFFFFF; border: none; border-bottom: 1px solid #F0F1F2; cursor: pointer;">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; background: #E7E9EB; color: #6C737A; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0;">F</div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: 18px; font-weight: 600; color: #16191D;">Família</div>
+                    <div style="font-size: 15px; color: #6C737A;">Pedro: o almoço fica na casa da tia</div>
+                  </div>
+                  <div style="font-size: 13px; color: #8A8F8B;">08:40</div>
+                </button>
+                <button type="button" onClick="{{ erroOutraConversa }}" style="display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; padding: 15px 18px; background: #FFFFFF; border: none; cursor: pointer;">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; background: #E7E9EB; color: #6C737A; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0;">A</div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: 18px; font-weight: 600; color: #16191D;">Posto de saúde</div>
+                    <div style="font-size: 15px; color: #6C737A;">Sua consulta é dia 4, às 14h</div>
+                  </div>
+                  <div style="font-size: 13px; color: #8A8F8B;">seg</div>
+                </button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ naChat }}">
+              <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid #E7E9EB; flex-shrink: 0;">
+                  <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #6C737A;"></div>
+                  <div style="width: 40px; height: 40px; border-radius: 50%; background: #D7E2EF; color: #1B4F8A; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700;">M</div>
+                  <div style="font-size: 19px; font-weight: 600;">Maria (filha)</div>
+                </div>
+
+                <div style="flex: 1; min-height: 0; overflow: hidden; background: #F5F5F3; padding: 16px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-end;">
+                  <div style="align-self: flex-start; max-width: 78%; background: #FFFFFF; border: 1px solid #E7E9EB; border-radius: 6px; padding: 12px 14px; font-size: 16px; line-height: 1.45;">Mãe, chegou bem em casa?</div>
+                  <div style="align-self: flex-end; max-width: 78%; background: #E3ECF7; border-radius: 6px; padding: 12px 14px; font-size: 16px; line-height: 1.45;">Cheguei sim, filha.</div>
+                  <sc-if value="{{ enviado }}">
+                    <div style="align-self: flex-end; display: flex; align-items: center; gap: 12px; background: #1B4F8A; border-radius: 6px; padding: 13px 16px;">
+                      <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid #FFFFFF;"></div>
+                      <div style="display: flex; align-items: center; gap: 3px; height: 22px;">
+                        <div style="width: 3px; height: 8px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 16px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 22px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 12px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 19px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 7px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 14px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 20px; border-radius: 2px; background: #9FBEE2;"></div>
+                        <div style="width: 3px; height: 10px; border-radius: 2px; background: #9FBEE2;"></div>
+                      </div>
+                      <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">0:04</div>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <div style="flex-shrink: 0; border-top: 1px solid #E7E9EB; padding: 12px 14px; display: flex; align-items: center; gap: 12px; background: #FFFFFF;">
+                  <sc-if value="{{ gravando }}">
+                    <div style="flex: 1; display: flex; align-items: center; gap: 11px; min-height: 52px; padding: 0 14px; border-radius: 6px; background: #FAEDE9;">
+                      <div style="width: 12px; height: 12px; border-radius: 50%; background: #A83A22; animation: pisca 1s ease-in-out infinite;"></div>
+                      <div style="font-size: 17px; font-weight: 600; color: #A83A22;">Gravando {{ tempo }}</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ paradoDeGravar }}">
+                    <div style="flex: 1; min-height: 52px; display: flex; align-items: center; padding: 0 14px; border: 1.5px solid #DFE1E4; border-radius: 6px; color: #9AA0A6; font-size: 16px;" onClick="{{ erroCampoTexto }}">Escreva uma mensagem</div>
+                  </sc-if>
+                  <div onPointerDown="{{ micDown }}" onPointerUp="{{ micUp }}" onPointerLeave="{{ micUp }}" style="width: 62px; height: 62px; flex-shrink: 0; border-radius: 50%; background: #1B4F8A; display: flex; align-items: center; justify-content: center; cursor: pointer; touch-action: none; animation: alvo 1.6s ease-out infinite;">
+                    <div style="position: relative; width: 26px; height: 34px;">
+                      <div style="position: absolute; left: 7px; top: 0; width: 12px; height: 18px; border-radius: 6px; background: #FFFFFF;"></div>
+                      <div style="position: absolute; left: 1px; top: 10px; width: 24px; height: 12px; border: 3px solid #FFFFFF; border-top: none; border-radius: 0 0 14px 14px; box-sizing: border-box;"></div>
+                      <div style="position: absolute; left: 11px; top: 23px; width: 4px; height: 7px; background: #FFFFFF;"></div>
+                      <div style="position: absolute; left: 5px; top: 30px; width: 16px; height: 3px; border-radius: 2px; background: #FFFFFF;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="flex-shrink: 0; background: #16191D; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8FA6BF;">{{ passoLabel }}</span>
+              <div style="display: flex; gap: 8px;">
+                <sc-if value="{{ temNarracao }}">
+                  <button type="button" onClick="{{ ouvir }}" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1.5px solid #3E464E; border-radius: 6px; background: none; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #232830;">
+                    <div style="width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 9px solid #FFFFFF;"></div>
+                    Ouvir
+                  </button>
+                </sc-if>
+                <button type="button" onClick="{{ verDica }}" style="min-height: 44px; padding: 0 14px; border: 1.5px solid #3E464E; border-radius: 6px; background: none; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #232830;">Dica</button>
+              </div>
+            </div>
+
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.35; color: #FFFFFF; text-wrap: pretty;">{{ instrucao }}</div>
+
+            <sc-if value="{{ mostrarDica }}">
+              <div style="font-size: 16px; line-height: 1.5; color: #B9C4CF; border-left: 3px solid #3E464E; padding-left: 12px;">{{ dicaTexto }}</div>
+            </sc-if>
+
+            <sc-if value="{{ temErro }}">
+              <div style="background: #3A1B12; border-radius: 6px; padding: 13px 15px; font-size: 16px; line-height: 1.5; color: #F3C6B8;">{{ erroTexto }}</div>
+            </sc-if>
+
+            <sc-if value="{{ podeDemonstrar }}">
+              <button type="button" onClick="{{ demonstrar }}" style="align-self: flex-start; min-height: 46px; padding: 0 16px; border: none; border-radius: 6px; background: #FFFFFF; color: #16191D; font-size: 16px; font-weight: 700; cursor: pointer;" style-hover="background: #E8EEF6;">Me mostre como faz</button>
+            </sc-if>
+
+            <sc-if value="{{ demonstrando }}">
+              <div style="align-self: flex-start; display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 16px; border-radius: 6px; background: #232830; color: #FFFFFF; font-size: 16px; font-weight: 600;">
+                <div style="width: 10px; height: 10px; border-radius: 50%; background: #7FB0E8; animation: pisca 1s ease-in-out infinite;"></div>
+                Assista. Depois é a sua vez.
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;nomeAluno&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Cida&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Conteúdo&quot; },
+  &quot;mostrarFontes&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Conteúdo&quot; },
+  &quot;narracao&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Acessibilidade&quot; },
+  &quot;mostrarDemonstracao&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Acessibilidade&quot; }
+}">
+const NIVEIS = [
+  {
+    nome: 'Primeiros toques',
+    faixa: 'Indicado a partir dos 75 anos, ou para quem acaba de ganhar o primeiro celular. A idade é só sugestão: escolha o nível em que você se sentir bem.',
+    desc: 'O aparelho na mão, sem medo de estragar nada. Só o essencial do dia.',
+    pontos: 20,
+    aulas: [
+      { titulo: 'Atender e desligar sem derrubar', sub: 'A queixa número um: ligação que cai sozinha', rotulo: 'O que você vai aprender', itens: ['Arrastar o botão verde para atender', 'Encostar o dedo só onde precisa', 'Desligar sem apertar nada errado'], fonte: 'Discagem acidental e sensibilidade do toque, revisão sobre usuários idosos e celulares, Congresso Internacional de Design da Informação, 2020.' },
+      { titulo: 'Ligar e salvar um contato novo', sub: 'Guardar o número com o nome da pessoa', rotulo: 'O que você vai aprender', itens: ['Achar a pessoa na sua lista', 'Ligar tocando no nome, não no número', 'Guardar um número novo com nome'], fonte: 'Oficina de Celular do IPGG, Secretaria da Saúde de São Paulo.' },
+      { titulo: 'Destravar a tela e guardar a senha', sub: 'Entrar no celular sem depender de ninguém', rotulo: 'O que você vai aprender', itens: ['Acordar a tela e destravar', 'Escolher uma senha que você lembra', 'Onde anotar a senha com segurança'], fonte: 'Cartilha de Segurança para Internet, CERT.br.' },
+      { titulo: 'Deixar a tela mais fácil de ver', sub: 'Letra maior, mais brilho, mais volume', rotulo: 'O que você vai aprender', itens: ['Aumentar o tamanho da letra do celular', 'Deixar a tela mais clara', 'Subir o volume da chamada'], fonte: 'Recomendações de acessibilidade para interface de celular para o público idoso, Anjos e Gontijo, 2015.' },
+      { titulo: 'O que cada desenho quer dizer', sub: 'Os ícones confundem mais do que ajudam', rotulo: 'O que você vai aprender', itens: ['Os desenhos que aparecem em todo aplicativo', 'Onde fica o voltar e o fechar', 'O que é seguro tocar para descobrir'], fonte: 'Confusão sobre o significado dos ícones e terminologias, Câmara, Revista Ceuma Perspectivas.' },
+      { titulo: 'Não vou estragar: o que dá e o que não dá', sub: '40% têm receio de danificar o aparelho', rotulo: 'O que você vai aprender', itens: ['Nada do que você toca quebra o celular', 'O que fazer quando a tela “trava”', 'Como voltar quando se perder'], fonte: 'Pesquisa sobre aceitação de tecnologias por pessoas idosas, Taiuani Marquine Raymundo, UFPR.' }
+    ]
+  },
+  {
+    nome: 'Dia a dia',
+    faixa: 'Indicado entre 65 e 75 anos, para quem já manda mensagem mas trava no resto.',
+    desc: 'Conversar, ver a família e resolver o que aparece na tela todos os dias.',
+    pontos: 30,
+    aulas: [
+      { titulo: 'Mandar mensagem e áudio', sub: 'Serve para WhatsApp e outros aplicativos de mensagem', rotulo: 'Nesta aula você vai', itens: ['Abrir a conversa da pessoa certa', 'Segurar o microfone e falar', 'Soltar o dedo para enviar', 'Repetir quantas vezes quiser'], fonte: 'Cartilha de orientação sobre uso de smartphones por pessoas idosas, Borges e colaboradores, 2025.', pronta: true, acao: 'aula', acaoLabel: 'Começar a aula' },
+      { titulo: 'Entender as notificações', sub: 'Excesso de informação na tela é queixa recorrente', rotulo: 'Você vai treinar com', itens: ['Avisos que podem esperar', 'Avisos que pedem sua atenção agora', 'Como limpar a tela sem perder nada'], fonte: 'Excesso de informações disponíveis na tela, Câmara, Revista Ceuma Perspectivas.', pronta: true, acao: 'quiz', quiz: 1, acaoLabel: 'Treinar com 3 avisos' },
+      { titulo: 'Digitar sem errar as letras', sub: 'Erros de digitação estão entre as queixas mais citadas', rotulo: 'O que você vai aprender', itens: ['Apoiar o dedo com calma, sem bater', 'Apagar só a letra errada', 'Deixar o teclado com letras maiores'], fonte: 'Erros de digitação e telas pequenas, revisão sobre usuários idosos e celulares, CID 2020.' },
+      { titulo: 'Chamada de vídeo com a família', sub: 'Ver o rosto de quem está longe', rotulo: 'O que você vai aprender', itens: ['Começar uma chamada de vídeo', 'Virar a câmera para a frente', 'Encerrar sem desligar na cara de ninguém'], fonte: 'Oficina de Celular do IPGG, Secretaria da Saúde de São Paulo.' },
+      { titulo: 'Tirar foto e enviar para alguém', sub: 'Do clique até a conversa da pessoa', rotulo: 'O que você vai aprender', itens: ['Abrir a câmera e tirar a foto', 'Achar a foto depois', 'Enviar para uma pessoa ou grupo'], fonte: 'Funções básicas de mensagem, áudio e fotos em guias de inclusão digital para pessoas idosas.' },
+      { titulo: 'Wi-Fi e dados móveis: qual estou usando', sub: 'Para a internet não acabar no meio do mês', rotulo: 'O que você vai aprender', itens: ['Ver se está no Wi-Fi de casa', 'Ligar e desligar os dados móveis', 'O que gasta mais internet'], fonte: 'Mudanças de configuração consideradas complicadas, revisão CID 2020.' }
+    ]
+  },
+  {
+    nome: 'Com autonomia',
+    faixa: 'Indicado entre 60 e 70 anos, para quem quer resolver as coisas sem pedir ajuda.',
+    desc: 'Dinheiro, saúde e segurança pelo celular, com o pé no chão.',
+    pontos: 40,
+    aulas: [
+      { titulo: 'Reconhecer golpes e links falsos', sub: '61,1% apontam o medo de golpes como maior dificuldade', rotulo: 'Você vai treinar com', itens: ['Mensagens que pedem dinheiro com urgência', 'Links que parecem oficiais, mas não são', 'Pedidos de senha e código por telefone'], fonte: 'Cartilha de Segurança para Internet e Dicas Rápidas, CERT.br.', pronta: true, acao: 'quiz', quiz: 0, acaoLabel: 'Treinar com 3 situações' },
+      { titulo: 'Senhas: criar, guardar e não perder', sub: 'Sem papel solto e sem a mesma senha em tudo', rotulo: 'O que você vai aprender', itens: ['Montar uma senha fácil de lembrar e difícil de adivinhar', 'Onde guardar suas senhas', 'Verificação em duas etapas, sem susto'], fonte: 'Cartilha de Segurança para Internet, CERT.br.' },
+      { titulo: 'Marcar consulta no aplicativo de saúde', sub: 'Sem fila e sem depender de terceiros', rotulo: 'O que você vai aprender', itens: ['Entrar no aplicativo do serviço de saúde', 'Escolher dia e horário', 'Ver resultado de exame e guardar'], fonte: 'Buscas online e acesso a serviços públicos de saúde, oficinas de inclusão digital do IPGG.' },
+      { titulo: 'Pix com segurança: conferir antes de enviar', sub: 'Ler o nome de quem recebe, sempre', rotulo: 'O que você vai aprender', itens: ['Conferir nome e CPF antes de confirmar', 'Cancelar quando algo não bate', 'Nunca fazer Pix a pedido de mensagem'], fonte: 'Golpe do parente com número novo, orientações do CERT.br.' },
+      { titulo: 'Encontrar e instalar um aplicativo', sub: 'Sem instalar coisa que você não pediu', rotulo: 'O que você vai aprender', itens: ['Procurar pelo nome certo', 'Reconhecer o aplicativo verdadeiro', 'Apagar o que não usa e liberar espaço'], fonte: 'Organização da tela inicial e ícones em guias de acessibilidade para pessoas idosas.' },
+      { titulo: 'Ditar em vez de digitar', sub: 'O fim da briga com o teclado pequeno', rotulo: 'O que você vai aprender', itens: ['Ativar o comando por voz do celular', 'Ditar uma mensagem inteira', 'Pedir para o celular ler a tela em voz alta'], fonte: 'Recursos de controle por voz e leitor de tela em ajustes de acessibilidade, Android e iOS.' }
+    ]
+  }
+];
+
+const PASSOS = [
+  { n: 'Passo 1 de 4', i: 'Toque no nome de Maria para abrir a conversa.', d: 'Maria é a primeira da lista, no alto da tela.' },
+  { n: 'Passo 2 de 4', i: 'Encoste o dedo no microfone azul e não solte.', d: 'O microfone é o botão redondo azul, no canto de baixo à direita.' },
+  { n: 'Passo 3 de 4', i: 'Fale sua mensagem. Continue com o dedo apoiado.', d: 'Sem pressa. Fale como se estivesse falando ao telefone.' },
+  { n: 'Passo 4 de 4', i: 'Pronto. Agora tire o dedo e a mensagem vai sozinha.', d: 'Só tirar o dedo. Não precisa apertar mais nada.' }
+];
+
+const QUIZZES = [
+  {
+    pergunta: 'É golpe?',
+    labelA: 'É golpe',
+    labelB: 'É de verdade',
+    fonte: 'Sinais de golpe conforme a Cartilha de Segurança para Internet, CERT.br.',
+    itens: [
+      {
+        de: '+55 11 96•••-4402', hora: 'ontem, 19:40',
+        texto: 'AVISO: seu CPF foi BLOQUEADO. Regularize hoje para evitar multa: cpf-regulariza-br.info/2h',
+        a: true, alerta: true, veredito: 'É golpe.',
+        sinais: [
+          'O endereço do link não é do governo. Site oficial termina em gov.br.',
+          'Cria pressa: “hoje”, “evitar multa”. Golpe quase sempre tem urgência.',
+          'Chegou de um número que você não conhece.'
+        ],
+        oque: 'Não toque no link. Apague a mensagem. Se ficar em dúvida, procure o órgão pelo telefone ou site que você já conhece.'
+      },
+      {
+        de: 'Seu banco, 4004', hora: 'hoje, 10:02',
+        texto: 'Sua fatura de agosto já está disponível no aplicativo. Nunca pedimos senha nem código por telefone ou mensagem.',
+        a: false, alerta: false, veredito: 'É uma mensagem legítima.',
+        sinais: [
+          'Não pede nada de você: nenhum link, nenhum dado, nenhum valor.',
+          'Reforça que o banco nunca pede senha. Banco de verdade avisa isso.',
+          'Manda você abrir o aplicativo por conta própria.'
+        ],
+        oque: 'Pode ficar tranquila. Mesmo assim, abra o aplicativo do banco você mesma, nunca por um link recebido.'
+      },
+      {
+        de: 'Número desconhecido', hora: 'hoje, 08:15',
+        texto: 'Mãe, perdi meu celular e estou nesse número novo. Preciso que você me faça um Pix urgente, depois eu te explico.',
+        a: true, alerta: true, veredito: 'É golpe, e é o mais comum de todos.',
+        sinais: [
+          'Número novo mais pedido de dinheiro é o golpe mais aplicado contra pessoas idosas.',
+          'Pede pressa e segredo: “depois eu te explico”.',
+          'Não há como confirmar quem está do outro lado.'
+        ],
+        oque: 'Ligue para o número antigo do seu filho antes de qualquer coisa. Se ele atender, era golpe.'
+      }
+    ]
+  },
+  {
+    pergunta: 'Preciso olhar agora?',
+    labelA: 'Pode esperar',
+    labelB: 'Vale olhar agora',
+    fonte: 'Excesso de informação na tela como barreira de uso, Câmara, Revista Ceuma Perspectivas.',
+    itens: [
+      {
+        de: 'Loja de aplicativos', hora: 'agora',
+        texto: 'Atualização disponível para 3 aplicativos. Toque para atualizar.',
+        a: true, alerta: false, veredito: 'Pode esperar, sem problema nenhum.',
+        sinais: [
+          'Nada deixa de funcionar se você atualizar amanhã.',
+          'Atualizar fora do Wi-Fi gasta seus dados móveis.',
+          'Esse aviso volta sozinho quando você abrir a loja.'
+        ],
+        oque: 'Deixe para quando estiver no Wi-Fi de casa, com calma. Você não perde nada esperando.'
+      },
+      {
+        de: 'Telefone', hora: 'hoje, 07:42',
+        texto: '1 chamada perdida de Maria (filha), às 07:42.',
+        a: false, alerta: false, veredito: 'Vale olhar agora.',
+        sinais: [
+          'É uma pessoa da sua confiança, não um número estranho.',
+          'Ligação bem cedo pode ser assunto que não espera.',
+          'Retornar custa um toque no nome dela.'
+        ],
+        oque: 'Toque no nome da Maria e ligue de volta. Se ela não atender, mande um áudio.'
+      },
+      {
+        de: 'Posto de saúde', hora: 'hoje, 09:00',
+        texto: 'Lembrete: sua consulta é amanhã, às 14h, na unidade da rua Sete.',
+        a: false, alerta: false, veredito: 'Vale olhar agora.',
+        sinais: [
+          'Tem data, hora e lugar marcados.',
+          'Veio de um serviço que você já usa, não de desconhecido.',
+          'Esquecer custa a consulta e a fila de novo.'
+        ],
+        oque: 'Anote na agenda do celular ou num papel na porta da geladeira. Depois é só confirmar.'
+      }
+    ]
+  }
+];
+
+const SELOS = [
+  { id: 'msg', nome: 'Primeira mensagem', como: 'Concluir a aula de áudio' },
+  { id: 'calma', nome: 'Sem pressa', como: 'Concluir uma aula sem nenhum erro' },
+  { id: 'olho', nome: 'Olho vivo', como: 'Acertar 3 situações de golpe' },
+  { id: 'cem', nome: 'Cem pontos', como: 'Somar 100 pontos na caderneta' },
+  { id: 'seq', nome: 'Três dias seguidos', como: 'Abrir o app 3 dias seguidos' },
+  { id: 'n1', nome: 'Nível 1 completo', como: 'Concluir as 6 aulas do Nível 1' }
+];
+
+const FONTES = [
+  { tipo: 'Estudo', t: 'Elaboração de uma cartilha de orientação sobre o uso de smartphones pelos idosos', a: 'Borges e colaboradores · Revista Contemporânea, 2025' },
+  { tipo: 'Estudo', t: 'As dificuldades dos idosos com dispositivos móveis', a: 'Câmara · Revista Ceuma Perspectivas' },
+  { tipo: 'Revisão', t: 'Usuários idosos e sua relação com celulares: revisão bibliográfica sistemática', a: 'Congresso Internacional de Design da Informação, 2020' },
+  { tipo: 'Estudo', t: 'Recomendações de usabilidade e acessibilidade para interface de telefone celular visando o público idoso', a: 'Anjos e Gontijo · Produção, 2015' },
+  { tipo: 'Cartilha', t: 'Oficina de Celular e material de inclusão digital para a pessoa idosa', a: 'Instituto Paulista de Geriatria e Gerontologia · Secretaria da Saúde de São Paulo' },
+  { tipo: 'Guia', t: 'Cartilha de Segurança para Internet e Dicas Rápidas', a: 'CERT.br · NIC.br' },
+  { tipo: 'Pesquisa', t: 'TIC Domicílios 2023', a: 'Cetic.br · NIC.br' },
+  { tipo: 'Pesquisa', t: 'Aceitação de tecnologias por pessoas idosas', a: 'Taiuani Marquine Raymundo · UFPR' },
+  { tipo: 'Curso', t: 'Inclusão digital: smartphone para a pessoa idosa', a: 'Liceu de Ofícios · Prefeitura de Curitiba' },
+  { tipo: 'Portal', t: 'Saúde da Pessoa Idosa: inclusão digital', a: 'Fiocruz' }
+];
+
+const DADOS = [
+  { n: '61,1%', txt: 'apontam o medo de cair em golpes como a maior dificuldade no uso do celular', f: 'Borges e colaboradores, 2025' },
+  { n: '40%', txt: 'declaram receio de danificar o aparelho ao mexer nele', f: 'Raymundo, UFPR' },
+  { n: '38,8%', txt: 'têm dificuldade para ver e entender o que está escrito na tela', f: 'Borges e colaboradores, 2025' },
+  { n: '66%', txt: 'das pessoas acima de 60 anos no Brasil usam internet', f: 'TIC Domicílios 2023, Cetic.br' }
+];
+
+const QUEIXAS = [
+  'Ligação feita ou desligada por toque acidental',
+  'Erros de digitação no teclado pequeno',
+  'Não saber o que cada ícone significa',
+  'Excesso de informação e avisos na tela',
+  'Configurações consideradas complicadas demais',
+  'Medo de estragar o aparelho ou fazer algo errado',
+  'Medo de cair em golpes'
+];
+
+const RECAP = [
+  { n: '1', txt: 'Abra a conversa da pessoa tocando no nome dela.' },
+  { n: '2', txt: 'Encoste o dedo no microfone e mantenha apoiado.' },
+  { n: '3', txt: 'Fale sua mensagem com calma, sem soltar o dedo.' },
+  { n: '4', txt: 'Solte o dedo. O áudio é enviado na hora.' }
+];
+
+NIVEIS.push({
+  nome: 'Dinheiro e serviços',
+  faixa: 'Para quem já se sente firme no celular e quer resolver banco, boleto e serviço público sozinho.',
+  desc: 'Pagar, conferir e guardar comprovante sem depender de ninguém.',
+  pontos: 40,
+  aulas: [
+    { titulo: 'Pix: conferir nome e CPF antes de confirmar', sub: 'O passo que evita a maior parte do prejuízo', rotulo: 'O que você vai aprender', itens: ['Ler o nome de quem vai receber', 'Conferir os dígitos do CPF', 'Cancelar quando algo não bate'], fonte: 'Orientações de prevenção a fraude, CERT.br.' },
+    { titulo: 'Boleto e código de barras pelo celular', sub: 'Pagar sem sair de casa', rotulo: 'O que você vai aprender', itens: ['Apontar a câmera para o código', 'Conferir valor e vencimento', 'Guardar o comprovante'], fonte: 'Oficinas de inclusão digital do IPGG.' },
+    { titulo: 'Comprovante: salvar, achar e enviar', sub: 'Prova de pagamento é o que mais se perde', rotulo: 'O que você vai aprender', itens: ['Salvar o comprovante no celular', 'Achar depois, sem procurar em tudo', 'Enviar para quem pediu'], fonte: 'Cartilha de orientação sobre uso de smartphones, Borges e colaboradores, 2025.' },
+    { titulo: 'gov.br: entrar e usar sem perder a senha', sub: 'Porta de entrada de quase todo serviço público', rotulo: 'O que você vai aprender', itens: ['Entrar com CPF e senha', 'Recuperar quando esquecer', 'Ver benefício e comprovante'], fonte: 'Buscas online e serviços públicos, oficinas do IPGG.' },
+    { titulo: 'Comprar sem cair em site falso', sub: 'Preço muito baixo é o primeiro sinal', rotulo: 'Você vai treinar com', itens: ['Endereço de site que imita o verdadeiro', 'Oferta boa demais para ser real', 'Pagamento só por Pix, sem nota'], fonte: 'Cartilha de Segurança para Internet, CERT.br.' },
+    { titulo: 'Cobrança que não é sua: como contestar', sub: 'Saber que existe direito e como exercer', rotulo: 'O que você vai aprender', itens: ['Reconhecer cobrança indevida', 'Onde reclamar e o que dizer', 'Guardar protocolo do atendimento'], fonte: 'Orientações de defesa do consumidor idoso.' }
+  ]
+});
+
+NIVEIS.push({
+  nome: 'Ensinar e ajudar',
+  faixa: 'Para quem já aprendeu e quer ajudar outra pessoa. Habilita a formação de monitor de turma.',
+  desc: 'Passar adiante o que aprendeu, com paciência e método.',
+  pontos: 50,
+  aulas: [
+    { titulo: 'Ajudar sem tomar o celular da mão', sub: 'O erro mais comum de quem ensina em família', rotulo: 'O que você vai aprender', itens: ['Apontar em vez de fazer pela pessoa', 'Esperar o tempo dela', 'Deixar errar sem corrigir na hora'], fonte: 'Falta de método adequado ao ensino de pessoas idosas, relatos de especialistas em inclusão digital.' },
+    { titulo: 'Explicar um passo em três frases', sub: 'Verbo no início, uma ação por frase', rotulo: 'Você vai treinar com', itens: ['Trocar palavra técnica por palavra do dia a dia', 'Uma instrução por vez', 'Repetir sem mudar as palavras'], fonte: 'Terminologia dos dispositivos como barreira, Câmara, Revista Ceuma Perspectivas.' },
+    { titulo: 'Montar um encontro de 40 minutos', sub: 'Plano de aula pronto para aplicar na turma', rotulo: 'O que você vai aprender', itens: ['Abrir com o que a turma já sabe', 'Uma habilidade por encontro', 'Fechar com tarefa para casa'], fonte: 'Formato das oficinas de celular do IPGG e do Liceu de Ofícios.' },
+    { titulo: 'Reconhecer medo e acolher', sub: 'Receio e vergonha são as primeiras barreiras', rotulo: 'O que você vai aprender', itens: ['Ouvir a queixa sem minimizar', 'Mostrar que nada quebra', 'Começar por uma tarefa que dá certo'], fonte: 'Medo de tecnologia e de danificar o aparelho, Raymundo, UFPR.' },
+    { titulo: 'Ajudar à distância pelo telefone', sub: 'Guiar sem ver a tela da outra pessoa', rotulo: 'O que você vai aprender', itens: ['Pedir para descrever o que está na tela', 'Usar referências de posição, não de cor', 'Confirmar cada passo antes do seguinte'], fonte: 'Recomendações de acessibilidade, Anjos e Gontijo, 2015.' },
+    { titulo: 'Virar monitor da turma', sub: 'Avaliação final e certificado de monitor', rotulo: 'O que você vai fazer', itens: ['Conduzir um encontro com acompanhamento', 'Receber devolutiva do instrutor', 'Emitir o certificado de monitor'], fonte: 'Formação de monitores em programas municipais de inclusão digital.' }
+  ]
+});
+
+const PLANOS = [
+  {
+    id: 'gratuito', nome: 'Gratuito', preco: 'R$ 0', periodo: 'para sempre',
+    itens: ['Nível 1 completo, as 6 aulas', 'As duas primeiras aulas dos Níveis 2 a 5', 'Exercícios de golpes e notificações, sempre livres', 'Caderneta de selos e pontos'],
+    acao: ''
+  },
+  {
+    id: 'familia', nome: 'Plano Família', preco: 'R$ 24,90', periodo: 'por mês, uma assinatura para a casa',
+    itens: ['Os 5 níveis e as 30 aulas liberadas', 'Uma tutoria ao vivo por vídeo a cada mês', 'Relatório de progresso para quem cuida', 'Botão “Pedir ajuda” que chama seu familiar', 'Missão semanal confirmada pela família'],
+    acao: 'Enviar para minha filha'
+  },
+  {
+    id: 'instituicao', nome: 'Turma e instituição', preco: 'A partir de R$ 8', periodo: 'por pessoa, por mês, em contrato anual',
+    itens: ['Para prefeituras, unidades de saúde, centros de convivência e planos de saúde', 'Painel do instrutor com a turma inteira', 'Cartilhas para imprimir e levar para casa', 'Certificado de conclusão por turma', 'Relatório de frequência para o gestor'],
+    acao: 'Falar com a gente'
+  }
+];
+
+const OFERTA_ITENS = [
+  'As 30 aulas dos cinco níveis, sem bloqueio',
+  'Uma tutoria ao vivo por vídeo a cada mês',
+  'Missão da semana confirmada por alguém da família',
+  'Botão “Pedir ajuda” que chama seu familiar na hora'
+];
+
+const ESCALAS = [1, 1.15, 1.3];
+
+class Component extends DCLogic {
+  state = {
+    tela: 'home', nivel: 1, aula: 0,
+    passo: 0, naChat: false, gravando: false, seg: 0, enviado: false,
+    dica: false, erro: null, demo: false, erros: 0,
+    esc: 0, pontos: 120, sequencia: 3,
+    feitas: ['0-0', '0-1', '0-2'], selos: ['seq', 'cem'],
+    ganhos: 0, ganhosDetalhe: '', novoSelo: null,
+    qset: 0, qi: 0, qResp: null, qGanhou: false, qAcertosGolpe: 0, qPagos: [],
+    plano: 'gratuito', missao: 'aberta', convite: false
+  };
+
+  timers = [];
+
+  componentWillUnmount() { this.limpar(); }
+
+  limpar() {
+    this.timers.forEach(clearTimeout);
+    this.timers = [];
+    clearInterval(this.tick);
+    clearTimeout(this.t3);
+  }
+
+  atras(ms, fn) { this.timers.push(setTimeout(fn, ms)); }
+
+  reset(extra) {
+    this.limpar();
+    this.setState(Object.assign({
+      passo: 0, naChat: false, gravando: false, seg: 0, enviado: false,
+      dica: false, erro: null, demo: false, erros: 0
+    }, extra || {}));
+  }
+
+  errar(msg) {
+    if (this.state.demo) return;
+    this.setState(s => ({ erro: msg, erros: s.erros + 1 }));
+  }
+
+  // Concede pontos e selos. Retorna via setState; nunca repontua aula já feita.
+  concluir(chave, base, semErros) {
+    this.setState(s => {
+      const repetida = s.feitas.indexOf(chave) !== -1;
+      const bonus = semErros ? 10 : 0;
+      const ganhos = repetida ? 0 : base + bonus;
+      const pontos = s.pontos + ganhos;
+      const feitas = repetida ? s.feitas : s.feitas.concat([chave]);
+      const novos = [];
+      if (chave === '1-0') novos.push('msg');
+      if (semErros) novos.push('calma');
+      if (pontos >= 100) novos.push('cem');
+      const n1 = feitas.filter(k => String(k).charAt(0) === '0').length;
+      if (n1 >= 6) novos.push('n1');
+      const inedito = novos.filter(id => s.selos.indexOf(id) === -1);
+      return {
+        tela: 'feito', pontos, feitas,
+        selos: s.selos.concat(inedito),
+        ganhos,
+        ganhosDetalhe: repetida ? '' : (bonus ? base + ' pela aula, ' + bonus + ' de bônus por não errar nenhum passo' : base + ' pela aula concluída'),
+        novoSelo: inedito.length ? inedito[0] : null
+      };
+    });
+  }
+
+  ouvir = () => {
+    const p = PASSOS[Math.min(this.state.passo, 3)];
+    const txt = this.state.erro ? this.state.erro : p.i + ' ' + p.d;
+    try {
+      const s = window.speechSynthesis;
+      if (!s) return;
+      s.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = 'pt-BR';
+      u.rate = 0.85;
+      s.speak(u);
+    } catch (e) { /* narração indisponível neste navegador */ }
+  };
+
+  tocarConversa = () => {
+    if (this.state.demo) return;
+    if (this.state.passo !== 0) { this.errar('Você já está na conversa da Maria. O próximo passo é o microfone.'); return; }
+    this.setState({ naChat: true, passo: 1, erro: null, dica: false });
+  };
+
+  erroOutraConversa = () => this.errar('Essa é outra conversa. Hoje vamos falar com a Maria, a primeira da lista.');
+  erroCampoTexto = () => this.errar('Esse campo serve para escrever com o teclado. Nesta aula usamos o microfone, ao lado.');
+
+  micDown = () => {
+    if (this.state.demo) return;
+    if (this.state.passo === 0) { this.errar('Antes disso, abra a conversa da Maria.'); return; }
+    if (this.state.passo >= 2) return;
+    this.setState({ passo: 2, gravando: true, seg: 0, erro: null, dica: false });
+    clearInterval(this.tick);
+    this.tick = setInterval(() => this.setState(s => ({ seg: s.seg + 1 })), 1000);
+    clearTimeout(this.t3);
+    this.t3 = setTimeout(() => this.setState(s => (s.gravando ? { passo: 3 } : null)), 2400);
+  };
+
+  micUp = () => {
+    if (this.state.demo || !this.state.gravando) return;
+    clearInterval(this.tick);
+    clearTimeout(this.t3);
+    if (this.state.passo === 2) {
+      this.setState(s => ({
+        passo: 1, gravando: false, seg: 0, erros: s.erros + 1,
+        erro: 'Você soltou o dedo antes de falar. Sem pressa: segure, fale, e só depois solte.'
+      }));
+      return;
+    }
+    this.setState({ gravando: false, enviado: true, erro: null });
+    this.atras(1500, () => this.concluir('1-0', 30, this.state.erros === 0));
+  };
+
+  demonstrar = () => {
+    this.reset({ demo: true });
+    this.atras(1300, () => this.setState({ naChat: true, passo: 1 }));
+    this.atras(2600, () => this.setState({ gravando: true, passo: 2, seg: 0 }));
+    this.atras(3500, () => this.setState({ seg: 1 }));
+    this.atras(4400, () => this.setState({ seg: 2, passo: 3 }));
+    this.atras(5600, () => this.setState({ gravando: false, enviado: true }));
+    this.atras(7400, () => this.reset({ tela: 'aula' }));
+  };
+
+  verDica = () => this.setState(s => ({ dica: !s.dica }));
+  mudarEscala = () => this.setState(s => ({ esc: (s.esc + 1) % ESCALAS.length }));
+  voltarHome = () => this.reset({ tela: 'home' });
+  irCaderneta = () => this.reset({ tela: 'caderneta' });
+  irFontes = () => this.reset({ tela: 'fontes' });
+  refazerAula = () => this.reset({ tela: 'aula' });
+
+  irPraticar = () => this.reset({ tela: 'praticar', qi: 0, qResp: null, qGanhou: false });
+  usarSet(i) { this.reset({ tela: 'praticar', qset: i, qi: 0, qResp: null, qGanhou: false }); }
+
+  verNivel(i) { this.reset({ tela: 'home', nivel: i }); }
+
+  // Nível 1 é livre. Nos outros, as duas primeiras aulas são amostra.
+  livre(nivel, i) {
+    return this.state.plano !== 'gratuito' || nivel === 0 || i < 2;
+  }
+
+  abrirTrilha(i) {
+    if (!this.livre(this.state.nivel, i)) { this.reset({ tela: 'oferta', aula: i, convite: false }); return; }
+    this.reset({ tela: 'trilha', aula: i });
+  }
+
+  irPlanos = () => this.reset({ tela: 'planos' });
+  enviarConvite = () => this.setState({ convite: true });
+  alternarPlano = () => this.setState(s => ({ plano: s.plano === 'gratuito' ? 'familia' : 'gratuito' }));
+
+  missaoPedir = () => this.setState({ missao: 'pedida' });
+  missaoFeita = () => this.setState(s => ({
+    missao: 'feita',
+    pontos: s.missao === 'feita' ? s.pontos : s.pontos + 20
+  }));
+
+  acaoTrilha = () => {
+    const a = NIVEIS[this.state.nivel].aulas[this.state.aula];
+    if (a.acao === 'quiz') this.usarSet(a.quiz || 0);
+    else this.reset({ tela: 'aula' });
+  };
+
+  responder(escolhaA) {
+    const q = QUIZZES[this.state.qset].itens[this.state.qi];
+    const certo = escolhaA === q.a;
+    this.setState(s => {
+      const chave = s.qset + '-' + s.qi;
+      const jaPago = (s.qPagos || []).indexOf(chave) !== -1;
+      const paga = certo && !jaPago;
+      const acertosGolpe = (s.qset === 0 && paga) ? s.qAcertosGolpe + 1 : s.qAcertosGolpe;
+      const pontos = s.pontos + (paga ? 15 : 0);
+      const novos = [];
+      if (acertosGolpe >= 3) novos.push('olho');
+      if (pontos >= 100) novos.push('cem');
+      const inedito = novos.filter(id => s.selos.indexOf(id) === -1);
+      return {
+        qResp: escolhaA, qGanhou: paga, pontos,
+        qPagos: paga ? (s.qPagos || []).concat([chave]) : (s.qPagos || []),
+        qAcertosGolpe: acertosGolpe,
+        selos: s.selos.concat(inedito)
+      };
+    });
+  }
+
+  qProxima = () => this.setState(s => {
+    const total = QUIZZES[s.qset].itens.length;
+    const prox = s.qi + 1;
+    if (prox < total) return { qi: prox, qResp: null, qGanhou: false };
+    const chave = s.qset === 0 ? '2-0' : '1-1';
+    const feitas = s.feitas.indexOf(chave) !== -1 ? s.feitas : s.feitas.concat([chave]);
+    return { qi: 0, qResp: null, qGanhou: false, feitas };
+  });
+
+  renderVals() {
+    const s = this.state;
+    const feitas = (s.feitas || []).map(String);
+    const nome = this.props.nomeAluno ?? 'Cida';
+    const verFontes = this.props.mostrarFontes ?? true;
+    const nv = NIVEIS[s.nivel];
+    const a = nv.aulas[s.aula] || nv.aulas[0];
+    const p = PASSOS[Math.min(s.passo, 3)];
+    const qz = QUIZZES[s.qset];
+    const q = qz.itens[s.qi];
+    const respondida = s.qResp !== null;
+    const acertou = respondida && s.qResp === q.a;
+    const feitasNivel = feitas.filter(k => String(k).charAt(0) === String(s.nivel)).length;
+    const proxIdx = nv.aulas.findIndex((x, i) => s.feitas.indexOf(s.nivel + '-' + i) === -1);
+    const prox = proxIdx === -1 ? null : nv.aulas[proxIdx];
+    const seloNovo = s.novoSelo ? SELOS.filter(x => x.id === s.novoSelo)[0] : null;
+
+    return {
+      nome, verFontes,
+      isHome: s.tela === 'home',
+      isTrilha: s.tela === 'trilha',
+      isAula: s.tela === 'aula',
+      isFeito: s.tela === 'feito',
+      isPraticar: s.tela === 'praticar',
+      isCaderneta: s.tela === 'caderneta',
+      isFontes: s.tela === 'fontes',
+      isPlanos: s.tela === 'planos',
+      isOferta: s.tela === 'oferta',
+      temChrome: s.tela !== 'aula',
+      navHome: s.tela === 'home' || s.tela === 'trilha' || s.tela === 'feito' || s.tela === 'oferta',
+      navHomeOff: !(s.tela === 'home' || s.tela === 'trilha' || s.tela === 'feito' || s.tela === 'oferta'),
+      navPraticar: s.tela === 'praticar',
+      navPraticarOff: s.tela !== 'praticar',
+      navCad: s.tela === 'caderneta' || s.tela === 'planos',
+      navCadOff: !(s.tela === 'caderneta' || s.tela === 'planos'),
+      navFontes: s.tela === 'fontes',
+      navFontesOff: s.tela !== 'fontes',
+
+      zoom: ESCALAS[s.esc],
+      escalaLabel: s.esc === 0 ? 'A+' : (s.esc === 1 ? 'A++' : 'A'),
+      mudarEscala: this.mudarEscala,
+      pontos: String(s.pontos),
+      sequencia: String(s.sequencia),
+
+      resumo: feitas.length + ' de 30 aulas concluídas. Vá no seu ritmo.',
+
+      n0on: s.nivel === 0, n1on: s.nivel === 1, n2on: s.nivel === 2,
+      n3on: s.nivel === 3, n4on: s.nivel === 4,
+      nivel0: () => this.verNivel(0),
+      nivel1: () => this.verNivel(1),
+      nivel2: () => this.verNivel(2),
+      nivel3: () => this.verNivel(3),
+      nivel4: () => this.verNivel(4),
+      nvNum: String(s.nivel + 1), nvNome: nv.nome, nvDesc: nv.desc, nvFaixa: nv.faixa,
+      nvFeitas: String(feitasNivel),
+      nvPct: Math.round((feitasNivel / 6) * 100) + '%',
+
+      temContinuar: !!prox,
+      contTitulo: prox ? prox.titulo : '',
+      contMeta: prox ? (prox.pronta
+        ? (prox.acao === 'quiz' ? 'Pronta para fazer agora · 15 pontos por situação' : 'Pronta para fazer agora · ' + nv.pontos + ' pontos')
+        : 'Em preparação · ' + nv.pontos + ' pontos') : '',
+      contAbrir: () => this.abrirTrilha(proxIdx === -1 ? 0 : proxIdx),
+
+      aulas: nv.aulas.map((x, i) => {
+        const feita = feitas.indexOf(s.nivel + '-' + i) !== -1;
+        const liberada = this.livre(s.nivel, i);
+        return {
+          n: String(i + 1), titulo: x.titulo, sub: x.sub,
+          feita: feita,
+          trancada: !liberada,
+          jogavel: liberada && !!x.pronta && !feita,
+          abrir: () => this.abrirTrilha(i)
+        };
+      }),
+
+      tEtiqueta: 'Nível ' + (s.nivel + 1) + ' · Aula ' + (s.aula + 1),
+      tTitulo: a.titulo, tSub: a.sub, tRotulo: a.rotulo, tItens: a.itens, tFonte: a.fonte,
+      tPontosLabel: a.acao === 'quiz'
+        ? '15 pontos por cada situação certa, uma vez por situação'
+        : 'Vale ' + nv.pontos + ' pontos ao concluir, mais 10 se não errar nenhum passo',
+      tPronta: !!a.pronta, tEmPreparo: !a.pronta,
+      tAcao: this.acaoTrilha, tAcaoLabel: a.acaoLabel || '',
+
+      passoLabel: s.demo ? 'Demonstração' : p.n,
+      instrucao: p.i,
+      dicaTexto: p.d,
+      mostrarDica: s.dica,
+      temErro: !!s.erro,
+      erroTexto: s.erro || '',
+      naLista: !s.naChat,
+      naChat: s.naChat,
+      gravando: s.gravando,
+      paradoDeGravar: !s.gravando,
+      enviado: s.enviado,
+      tempo: '0:0' + Math.min(s.seg, 9),
+      temNarracao: (this.props.narracao ?? true) && !s.demo,
+      podeDemonstrar: (this.props.mostrarDemonstracao ?? true) && !s.demo,
+      demonstrando: s.demo,
+      tocarConversa: this.tocarConversa,
+      erroOutraConversa: this.erroOutraConversa,
+      erroCampoTexto: this.erroCampoTexto,
+      micDown: this.micDown,
+      micUp: this.micUp,
+      ouvir: this.ouvir,
+      verDica: this.verDica,
+      demonstrar: this.demonstrar,
+
+      ganhos: String(s.ganhos),
+      ganhosDetalhe: s.ganhosDetalhe,
+      ganhouPontos: s.ganhos > 0,
+      semPontos: s.ganhos === 0,
+      temNovoSelo: !!seloNovo,
+      novoSeloNome: seloNovo ? seloNovo.nome : '',
+      recap: RECAP,
+      refazerAula: this.refazerAula,
+
+      s0on: s.qset === 0, s1on: s.qset === 1,
+      set0: () => this.usarSet(0),
+      set1: () => this.usarSet(1),
+      qPergunta: qz.pergunta, qLabelA: qz.labelA, qLabelB: qz.labelB, qFonte: qz.fonte,
+      qNum: String(s.qi + 1), qTotal: String(qz.itens.length),
+      qDe: q.de, qHora: q.hora, qTexto: q.texto,
+      qAberta: !respondida, qRespondida: respondida,
+      qAcertou: respondida && acertou,
+      qErrou: respondida && !acertou,
+      qAlerta: respondida && q.alerta,
+      qOk: respondida && !q.alerta,
+      qVeredito: respondida ? q.veredito : '',
+      qSinais: q.sinais, qOque: q.oque,
+      qGanhou: s.qGanhou,
+      qRepetida: respondida && acertou && !s.qGanhou,
+      respA: () => this.responder(true),
+      respB: () => this.responder(false),
+      qProxima: this.qProxima,
+      qProximaLabel: s.qi === qz.itens.length - 1 ? 'Recomeçar as situações' : 'Próxima situação',
+
+      totalFeitas: String(feitas.length),
+      totalPct: Math.round((feitas.length / 30) * 100) + '%',
+      selosFeitos: String(s.selos.length),
+      selos: SELOS.map(x => ({
+        nome: x.nome, como: x.como,
+        ganho: s.selos.indexOf(x.id) !== -1,
+        falta: s.selos.indexOf(x.id) === -1
+      })),
+
+      dados: DADOS,
+      queixas: QUEIXAS,
+      fontes: FONTES,
+
+      planoNome: s.plano === 'gratuito' ? 'Gratuito' : 'Plano Família',
+      planoDesc: s.plano === 'gratuito'
+        ? 'Nível 1 completo e as duas primeiras aulas dos outros níveis. Dezesseis aulas ainda trancadas.'
+        : 'Os cinco níveis liberados, tutoria ao vivo por mês e relatório para a família.',
+      planos: PLANOS.map(x => ({
+        nome: x.nome, preco: x.preco, periodo: x.periodo, itens: x.itens,
+        acao: x.acao, temAcao: !!x.acao,
+        atual: x.id === s.plano
+      })),
+      irPlanos: this.irPlanos,
+      alternarPlano: this.alternarPlano,
+      alternarLabel: s.plano === 'gratuito' ? 'Ver como fica com o Plano Família ativo' : 'Voltar ao plano gratuito',
+
+      ofertaTitulo: a.titulo,
+      ofertaItens: OFERTA_ITENS,
+      convite: s.convite,
+      semConvite: !s.convite,
+      enviarConvite: this.enviarConvite,
+
+      missaoAberta: s.missao === 'aberta',
+      missaoPedida: s.missao === 'pedida',
+      missaoFeitaOk: s.missao === 'feita',
+      missaoPedir: this.missaoPedir,
+      missaoFeita: this.missaoFeita,
+
+      voltarHome: this.voltarHome,
+      irPraticar: this.irPraticar,
+      irCaderneta: this.irCaderneta,
+      irFontes: this.irFontes
+    };
+  }
+}
+
+</script>
+</body>
+</html>

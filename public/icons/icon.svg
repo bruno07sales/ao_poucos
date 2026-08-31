@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Aos Poucos</title>
+  <desc id="description">Letra A acompanhada de três passos ascendentes</desc>
+  <rect width="512" height="512" rx="112" fill="#1B4F8A"/>
+  <path d="M102 351 208 133h54l106 218h-65l-20-47H185l-20 47h-63Zm105-99h54l-27-65-27 65Z" fill="#fff"/>
+  <rect x="314" y="267" width="38" height="38" rx="10" fill="#A9C4E4"/>
+  <rect x="358" y="223" width="38" height="82" rx="10" fill="#C9DCF0"/>
+  <rect x="402" y="179" width="38" height="126" rx="10" fill="#fff"/>
+</svg>
