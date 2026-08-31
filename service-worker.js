@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aos-poucos-v2';
+const CACHE_NAME = 'aos-poucos-v3';
 const APP_SHELL = [
   './',
   './manifest.webmanifest',
