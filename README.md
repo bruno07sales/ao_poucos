@@ -161,6 +161,7 @@ O arquivo `Aos Poucos.dc.html` é o protótipo navegável original e permanece n
 | --- | --- |
 | `npm run dev` | Inicia o frontend com atualização automática |
 | `npm run build` | Gera a versão otimizada em `dist/` |
+| `npm run build:pages` | Atualiza o frontend estático versionado em `docs/` |
 | `npm run preview` | Serve localmente a versão de produção |
 | `npm run server:dev` | Inicia a API em modo de desenvolvimento |
 | `npm run server:start` | Inicia a API sem observação de arquivos |
@@ -181,17 +182,20 @@ Ao alterar recursos offline, atualize a versão de `CACHE_NAME` em `public/servi
 
 ## Publicação no GitHub Pages
 
-O projeto inclui o workflow [deploy-pages.yml](./.github/workflows/deploy-pages.yml), que gera e publica o frontend automaticamente após cada envio para as branches `main` ou `master`.
+O frontend compilado para o GitHub Pages fica versionado em `docs/`. A raiz detecta o domínio `github.io` e encaminha o navegador para essa versão estática, evitando que o Pages tente executar diretamente os fontes Vue.
 
-Para ativar a primeira publicação:
+Antes de enviar uma alteração de frontend, atualize o build:
 
-1. Envie o projeto para um repositório no GitHub.
-2. Abra **Settings → Pages** no repositório.
-3. Em **Build and deployment → Source**, selecione **GitHub Actions**.
-4. Faça um push para `main` ou `master`, ou execute manualmente o workflow **Publicar no GitHub Pages** na aba **Actions**.
-5. Aguarde a conclusão do job `deploy`. O endereço publicado aparecerá no resumo da execução e na página de configurações.
+```bash
+npm run build:pages
+git add index.html docs package.json README.md
+git commit -m "Atualiza frontend do GitHub Pages"
+git push origin main
+```
 
-O build utiliza caminhos relativos, portanto funciona tanto em `usuario.github.io` quanto em `usuario.github.io/nome-do-repositorio/`. No GitHub Pages, o sistema usa os dados de demonstração por padrão e não depende de um servidor PostgreSQL.
+Em **Settings → Pages**, a origem pode permanecer em **Deploy from a branch**, usando a branch `main` e o diretório raiz `/ (root)`. O site público redirecionará de `/ao_poucos/` para `/ao_poucos/docs/`.
+
+O build usa caminhos relativos. No GitHub Pages, o sistema utiliza os dados de demonstração por padrão e não depende de um servidor PostgreSQL.
 
 O GitHub Pages hospeda somente conteúdo estático. Para habilitar login e persistência no futuro, publique a API e o PostgreSQL em outro serviço, configure `VITE_API_URL` durante o build e autorize a origem do GitHub Pages em `FRONTEND_ORIGIN`.
 
