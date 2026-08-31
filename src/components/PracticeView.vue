@@ -34,8 +34,8 @@ function next() {
     <section class="quiz-question">
       <h2>{{ item.question }}</h2>
       <div class="answer-grid">
-        <button type="button" class="button button-primary" @click="answer(true)">Sim, parece segura</button>
-        <button type="button" class="button button-outline" @click="answer(false)">Não, pode ser golpe</button>
+        <button type="button" class="button button-primary" :disabled="response !== null" @click="answer(true)">Sim, parece segura</button>
+        <button type="button" class="button button-outline" :disabled="response !== null" @click="answer(false)">Não, pode ser golpe</button>
       </div>
     </section>
     <div v-if="response !== null" class="feedback" :class="response === item.answer ? 'success' : 'warning'" role="status">

@@ -1,8 +1,12 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-const props = defineProps({ dashboard: { type: Object, required: true }, levels: { type: Array, required: true } })
-const emit = defineEmits(['open-lesson'])
+const props = defineProps({
+  dashboard: { type: Object, required: true },
+  levels: { type: Array, required: true },
+  missionBusy: { type: Boolean, default: false },
+})
+const emit = defineEmits(['open-lesson', 'complete-mission'])
 const selected = ref(1)
 const level = computed(() => props.levels[selected.value - 1])
 const done = computed(() => level.value.lessons.filter((lesson) => lesson.completed).length)
@@ -35,7 +39,9 @@ const done = computed(() => level.value.lessons.filter((lesson) => lesson.comple
       <p class="eyebrow">Missão desta semana</p>
       <h2>{{ dashboard.mission.title }}</h2>
       <p>{{ dashboard.mission.description }}</p>
-      <button type="button" class="button button-light">Já fiz</button>
+      <button type="button" class="button button-light" :disabled="dashboard.mission.status === 'completed' || missionBusy" @click="emit('complete-mission')">
+        {{ missionBusy ? 'Confirmando…' : dashboard.mission.status === 'completed' ? 'Missão concluída ✓' : 'Já fiz' }}
+      </button>
     </article>
 
     <section class="lessons-section" aria-labelledby="lessons-title">

@@ -1,6 +1,6 @@
 <script setup>
 defineProps({ lesson: { type: Object, required: true }, level: { type: Object, required: true } })
-defineEmits(['close', 'complete'])
+defineEmits(['close', 'complete', 'open-plan'])
 </script>
 
 <template>
@@ -18,7 +18,7 @@ defineEmits(['close', 'complete'])
         <div><span>3</span><p>Repetir até se sentir seguro.</p></div>
       </div>
       <button v-if="lesson.available" type="button" class="button button-primary full" @click="$emit('complete', lesson)">{{ lesson.completed ? 'Aula já concluída' : 'Concluir demonstração' }}</button>
-      <button v-else type="button" class="button button-primary full">Conhecer o Plano Família</button>
+      <button v-else type="button" class="button button-primary full" @click="$emit('open-plan')">Conhecer o Plano Família</button>
     </section>
   </div>
 </template>

@@ -31,6 +31,19 @@ export function useAppData() {
     dashboard.value.progress.completedLessons += 1
   }
 
+  async function completeMission() {
+    const mission = dashboard.value.mission
+    if (!mission || mission.status === 'completed') return false
+    if (!USE_MOCKS) await api.completeMission(mission.id)
+    mission.status = 'completed'
+    dashboard.value.user.points += mission.points
+    return true
+  }
+
+  function activateFamilyPlan() {
+    levels.value.forEach((level) => level.lessons.forEach((lesson) => { lesson.available = true }))
+  }
+
   onMounted(load)
-  return { dashboard, levels, loading, error, completedCount, load, completeLesson, usingMocks: USE_MOCKS }
+  return { dashboard, levels, loading, error, completedCount, load, completeLesson, completeMission, activateFamilyPlan, usingMocks: USE_MOCKS }
 }
