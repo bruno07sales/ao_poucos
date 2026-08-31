@@ -16,7 +16,7 @@ const done = computed(() => level.value.lessons.filter((lesson) => lesson.comple
       <p>{{ dashboard.progress.completedLessons }} de {{ dashboard.progress.totalLessons }} aulas concluídas. Vá no seu ritmo.</p>
     </section>
 
-    <section aria-labelledby="level-title">
+    <section class="level-section" aria-labelledby="level-title">
       <p id="level-title" class="section-label">Escolha o nível</p>
       <div class="level-tabs" role="tablist">
         <button v-for="item in levels" :key="item.id" type="button" role="tab" :aria-selected="selected === item.number" :class="{ active: selected === item.number }" @click="selected = item.number">
@@ -38,7 +38,7 @@ const done = computed(() => level.value.lessons.filter((lesson) => lesson.comple
       <button type="button" class="button button-light">Já fiz</button>
     </article>
 
-    <section aria-labelledby="lessons-title">
+    <section class="lessons-section" aria-labelledby="lessons-title">
       <p id="lessons-title" class="section-label">Aulas deste nível</p>
       <div class="lesson-list">
         <button v-for="lesson in level.lessons" :key="lesson.id" type="button" class="lesson-card" @click="emit('open-lesson', { lesson, level })">

@@ -22,7 +22,7 @@ async function finishLesson(lesson) {
 
 <template>
   <div class="app-shell" :class="`font-scale-${fontScale}`">
-    <AppHeader :points="dashboard?.user.points" :font-scale="fontScale" @change-font="fontScale = (fontScale + 1) % 3" />
+    <AppHeader :points="dashboard?.user.points" :font-scale="fontScale" @change-font="fontScale = (fontScale + 1) % 3" @navigate-home="activeView = 'home'" />
 
     <div v-if="loading" class="state-screen" aria-live="polite">
       <div class="loader"></div><strong>Preparando suas aulas…</strong>
